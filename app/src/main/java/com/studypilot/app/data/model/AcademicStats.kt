@@ -14,7 +14,12 @@ data class AcademicStats(
     val subjectProgressList: List<SubjectProgress> = emptyList(),
     val totalMaterialsCount: Int = 0,
     val totalMaterialStudySeconds: Long = 0L
-)
+) {
+    val masteredTopics: Int get() = completedTopicsCount
+    val totalTopics: Int get() = totalTopicsCount
+    val passedTestsCount: Int get() = testsPassed
+    val totalTestsCount: Int get() = testsAttempted
+}
 
 data class SubjectProgress(
     val subjectId: String,

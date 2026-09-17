@@ -606,7 +606,7 @@ fun SettingsScreen(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "${userProfile?.dailyTargetMinutes ?: 120} minutes per day",
+                            text = "${userProfile?.dailyStudyLimitMinutes ?: 120} minutes per day",
                             style = Typography.bodySmall,
                             color = MutedBrownText
                         )

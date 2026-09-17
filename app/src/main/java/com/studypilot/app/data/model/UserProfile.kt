@@ -18,4 +18,6 @@ data class UserProfile(
     val googleEmail: String? = null,
     val googleDisplayName: String? = null,
     val googlePhotoUrl: String? = null
-)
+) {
+    val dailyTargetMinutes: Int get() = dailyStudyLimitMinutes
+}

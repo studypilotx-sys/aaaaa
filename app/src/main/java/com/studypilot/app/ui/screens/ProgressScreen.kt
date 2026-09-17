@@ -37,7 +37,8 @@ fun ProgressScreen(
     onStartStudying: () -> Unit,
     onBack: () -> Unit
 ) {
-    val stats by viewModel.academicStats.collectAsState()
+    val rawStats by viewModel.academicStats.collectAsState()
+    val stats = rawStats ?: AcademicStats()
     val subjects by viewModel.subjects.collectAsState()
 
     Scaffold(
@@ -93,7 +94,7 @@ fun ProgressScreen(
                                     fontWeight = FontWeight.Bold
                                 )
                                 Text(
-                                    text = "${stats.masteredTopics} of ${stats.totalTopics} topics mastered",
+                                    text = "${stats.completedTopicsCount} of ${stats.totalTopicsCount} topics mastered",
                                     style = Typography.bodySmall,
                                     color = MutedBrownText
                                 )
@@ -175,7 +176,7 @@ fun ProgressScreen(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "${stats.passedTestsCount} / ${stats.totalTestsCount}",
+                                text = "${stats.testsPassed} / ${stats.testsAttempted}",
                                 style = Typography.titleLarge.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = DarkChocolate
@@ -285,7 +286,7 @@ fun ProgressScreen(
                     }
                 }
             } else {
-                items(subjects) { subject ->
+                items(subjects, key = { it.subject.id }) { item ->
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = Shapes.medium,
@@ -307,18 +308,18 @@ fun ProgressScreen(
                                     modifier = Modifier
                                         .size(14.dp)
                                         .clip(CircleShape)
-                                        .background(Color(android.graphics.Color.parseColor(subject.colorHex)))
+                                        .background(Color(android.graphics.Color.parseColor(item.subject.colorHex)))
                                 )
                                 Column {
                                     Text(
-                                        text = subject.name,
+                                        text = item.subject.name,
                                         style = Typography.titleMedium.copy(
                                             fontWeight = FontWeight.SemiBold,
                                             color = DarkChocolate
                                         )
                                     )
                                     Text(
-                                        text = "Target Grade: ${subject.targetGrade}",
+                                        text = "${item.chapterCount} chapters • ${item.topicCount} topics",
                                         style = Typography.bodySmall.copy(color = MutedBrownText)
                                     )
                                 }
